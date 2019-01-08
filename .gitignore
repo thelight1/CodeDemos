@@ -1,2 +1,5 @@
 .idea/
 CodeDemos.iml
+
+*/*.iml
+*/target/*
