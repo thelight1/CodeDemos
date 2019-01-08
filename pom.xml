@@ -10,6 +10,7 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>JUC</module>
+    <module>Java-Instrument</module>
   </modules>
 
   <name>CodeDemos</name>
