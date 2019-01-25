@@ -11,6 +11,8 @@
   <modules>
     <module>JUC</module>
     <module>Java-Instrument</module>
+      <module>javassist</module>
+      <module>JavaSE</module>
   </modules>
 
   <name>CodeDemos</name>
