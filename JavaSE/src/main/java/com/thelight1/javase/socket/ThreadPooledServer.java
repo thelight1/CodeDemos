@@ -20,6 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 1）只能开，不能关
  * 2）线程池没有shutdown，容易线程池泄露
  *
+ * 没有设置超时
+ *
  * 其他的参考资料
  * http://tutorials.jenkov.com/java-multithreaded-servers/thread-pooled-server.html
  */
