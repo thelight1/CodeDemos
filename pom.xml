@@ -15,6 +15,7 @@
       <module>JavaSE</module>
     <module>Netty</module>
       <module>Hystrix</module>
+      <module>Zookeeper</module>
   </modules>
 
   <name>CodeDemos</name>
