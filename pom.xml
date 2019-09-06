@@ -16,6 +16,7 @@
     <module>Netty</module>
       <module>Hystrix</module>
       <module>Zookeeper</module>
+      <module>Kafka</module>
   </modules>
 
   <name>CodeDemos</name>
@@ -29,11 +30,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>4.1.16.Final</version>
-    </dependency>
 
     <dependency>
       <groupId>junit</groupId>
