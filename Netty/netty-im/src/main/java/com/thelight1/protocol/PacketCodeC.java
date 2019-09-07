@@ -4,7 +4,7 @@ import com.thelight1.protocol.command.Command;
 import com.thelight1.protocol.request.LoginRequestPacket;
 import com.thelight1.protocol.request.MessageRequestPacket;
 import com.thelight1.protocol.response.LoginResponsePacket;
-import com.thelight1.protocol.response.MessageResonsePacket;
+import com.thelight1.protocol.response.MessageResponsePacket;
 import com.thelight1.serialize.Serializer;
 import com.thelight1.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
@@ -26,7 +26,7 @@ public class PacketCodeC {
         packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
         packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
-        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResonsePacket.class);
+        packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

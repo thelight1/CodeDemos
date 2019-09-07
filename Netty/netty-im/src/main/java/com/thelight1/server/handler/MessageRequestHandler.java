@@ -1,20 +1,34 @@
 package com.thelight1.server.handler;
 
 import com.thelight1.protocol.request.MessageRequestPacket;
-import com.thelight1.protocol.response.MessageResonsePacket;
+import com.thelight1.protocol.response.MessageResponsePacket;
+import com.thelight1.session.Session;
+import com.thelight1.util.SessionUtil;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import java.util.Date;
 
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
-
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) throws Exception {
-        MessageResonsePacket messageResonsePacket = new MessageResonsePacket();
-        messageResonsePacket.setVersion(messageRequestPacket.getVersion());
-        messageResonsePacket.setMessage(new Date() + "：服务端返回数据["+ messageRequestPacket.getMessage()+"]");
+    protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) {
+        // 1.拿到消息发送方的会话信息
+        Session session = SessionUtil.getSession(ctx.channel());
 
-        ctx.channel().writeAndFlush(messageResonsePacket);
+        // 2.通过消息发送方的会话信息构造要发送的消息
+        MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+        messageResponsePacket.setFromUserId(session.getUserId());
+        messageResponsePacket.setFromUsername(session.getUsername());
+        messageResponsePacket.setMessage(messageRequestPacket.getMessage());
+
+        // 3.拿到消息接收方的 channel
+        Channel toUserChannel = SessionUtil.getChannel(messageRequestPacket.getToUserId());
+
+        // 4.将消息发送给消息接收方
+        if (toUserChannel != null && SessionUtil.hasLogin(toUserChannel)) {
+            toUserChannel.writeAndFlush(messageResponsePacket);
+        } else {
+            System.err.println("[" + messageRequestPacket.getToUserId() + "] 不在线，发送失败!");
+        }
     }
 }

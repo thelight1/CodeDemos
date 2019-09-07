@@ -1,36 +1,49 @@
 package com.thelight1.server.handler;
 
-import com.thelight1.protocol.PacketCodeC;
 import com.thelight1.protocol.request.LoginRequestPacket;
 import com.thelight1.protocol.response.LoginResponsePacket;
-import com.thelight1.util.LoginUtil;
-import io.netty.buffer.ByteBuf;
+import com.thelight1.session.Session;
+import com.thelight1.util.SessionUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, LoginRequestPacket loginRequestPacket) {
         LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
         loginResponsePacket.setVersion(loginRequestPacket.getVersion());
+        loginResponsePacket.setUsername(loginRequestPacket.getUsername());
 
-        if (validate(loginRequestPacket)) {
-            LoginUtil.markAsLogin(ctx.channel());
-
+        if (valid(loginRequestPacket)) {
             loginResponsePacket.setSuccess(true);
-            System.out.println(new Date() + ": 登录成功");
+            String userId = randomUserId();
+            loginResponsePacket.setUserId(userId);
+            System.out.println("[" + loginRequestPacket.getUsername() + "]登录成功");
+            SessionUtil.bindSession(new Session(userId, loginRequestPacket.getUsername()), ctx.channel());
         } else {
+            loginResponsePacket.setReason("账号密码校验失败");
             loginResponsePacket.setSuccess(false);
-            loginResponsePacket.setReason("用户名密码校验失败");
-            System.out.println(new Date() + ": 登录失败");
+            System.out.println(new Date() + ": 登录失败!");
         }
+
+        // 登录响应
         ctx.channel().writeAndFlush(loginResponsePacket);
     }
 
-    private boolean validate(LoginRequestPacket loginRequestPacket) {
+    private boolean valid(LoginRequestPacket loginRequestPacket) {
         return true;
+    }
+
+    private static String randomUserId() {
+        return UUID.randomUUID().toString().split("-")[0];
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        SessionUtil.unBindSession(ctx.channel());
     }
 }

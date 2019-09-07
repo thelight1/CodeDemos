@@ -5,8 +5,10 @@ import com.thelight1.protocol.command.Command;
 import lombok.Data;
 
 @Data
-public class MessageResonsePacket extends Packet {
+public class MessageResponsePacket extends Packet {
 
+    private String fromUserId;
+    private String fromUsername;
     private String message;
 
     @Override
