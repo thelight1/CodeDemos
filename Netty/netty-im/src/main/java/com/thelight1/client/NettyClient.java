@@ -1,5 +1,9 @@
 package com.thelight1.client;
 
+import com.thelight1.client.handler.LoginResponseHandler;
+import com.thelight1.client.handler.MessageResponseHandler;
+import com.thelight1.codec.PacketDecoder;
+import com.thelight1.codec.PacketEncoder;
 import com.thelight1.protocol.PacketCodeC;
 import com.thelight1.protocol.request.MessageRequestPacket;
 import com.thelight1.util.LoginUtil;
@@ -41,7 +45,10 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new ClientHandler());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new LoginResponseHandler());
+                        ch.pipeline().addLast(new MessageResponseHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
                     }
                 });
 
@@ -79,8 +86,7 @@ public class NettyClient {
 
                     MessageRequestPacket packet = new MessageRequestPacket();
                     packet.setMessage(line);
-                    ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
-                    channel.writeAndFlush(byteBuf);
+                    channel.writeAndFlush(packet);
                 }
             }
         }).start();
