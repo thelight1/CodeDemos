@@ -3,6 +3,7 @@ package com.thelight1.server;
 import com.thelight1.codec.PacketDecoder;
 import com.thelight1.codec.PacketEncoder;
 import com.thelight1.codec.Spliter;
+import com.thelight1.server.handler.AuthHandler;
 import com.thelight1.server.handler.LoginRequestHandler;
 import com.thelight1.server.handler.MessageRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -37,6 +38,7 @@ public class NettyServer {
                         ch.pipeline().addLast(new Spliter());
                         ch.pipeline().addLast(new PacketDecoder());
                         ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new AuthHandler());
                         ch.pipeline().addLast(new MessageRequestHandler());
                         ch.pipeline().addLast(new PacketEncoder());
                     }

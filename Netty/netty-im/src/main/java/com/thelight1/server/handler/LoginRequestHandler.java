@@ -3,6 +3,7 @@ package com.thelight1.server.handler;
 import com.thelight1.protocol.PacketCodeC;
 import com.thelight1.protocol.request.LoginRequestPacket;
 import com.thelight1.protocol.response.LoginResponsePacket;
+import com.thelight1.util.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,6 +18,8 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         loginResponsePacket.setVersion(loginRequestPacket.getVersion());
 
         if (validate(loginRequestPacket)) {
+            LoginUtil.markAsLogin(ctx.channel());
+
             loginResponsePacket.setSuccess(true);
             System.out.println(new Date() + ": 登录成功");
         } else {

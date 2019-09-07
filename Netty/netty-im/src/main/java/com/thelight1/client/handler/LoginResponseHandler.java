@@ -1,6 +1,5 @@
 package com.thelight1.client.handler;
 
-import com.thelight1.protocol.PacketCodeC;
 import com.thelight1.protocol.request.LoginRequestPacket;
 import com.thelight1.protocol.response.LoginResponsePacket;
 import com.thelight1.util.LoginUtil;
