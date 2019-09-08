@@ -3,3 +3,5 @@ CodeDemos.iml
 
 */*.iml
 */target/*
+
+Netty/netty-im/target/*

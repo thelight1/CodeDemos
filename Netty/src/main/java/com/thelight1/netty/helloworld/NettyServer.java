@@ -10,11 +10,12 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 
 public class NettyServer {
-    public static void main(String[] args) {
-        ServerBootstrap serverBootstrap = new ServerBootstrap();
 
+    public static void main(String[] args) {
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup worker = new NioEventLoopGroup();
+
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap
                 .group(boss, worker)
                 .channel(NioServerSocketChannel.class)
