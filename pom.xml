@@ -17,6 +17,7 @@
       <module>Hystrix</module>
       <module>Zookeeper</module>
       <module>Kafka</module>
+      <module>Spring</module>
   </modules>
 
   <name>CodeDemos</name>
