@@ -1,7 +1,7 @@
 .idea/
 CodeDemos.iml
 
-*/*.iml
-*/target/*
+**/*.iml
+**/target/*
 
 Netty/netty-im/target/*
