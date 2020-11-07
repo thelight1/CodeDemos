@@ -1,4 +1,4 @@
-package com.thelight1.juc.tool;
+package com.thelight1;
 
 import java.util.concurrent.CyclicBarrier;
 
